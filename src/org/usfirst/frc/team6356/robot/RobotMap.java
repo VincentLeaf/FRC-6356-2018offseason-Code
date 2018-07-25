@@ -9,6 +9,8 @@ package org.usfirst.frc.team6356.robot;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.VictorSP;
 
 /**
@@ -28,6 +30,15 @@ public class RobotMap {
 	public static VictorSP speed3;
 	public static VictorSP speed4;
 	
+	public static VictorSP liftY;
+	
+	public static VictorSP intakeLeft;
+	public static VictorSP intakeRight;
+	public static VictorSP intakeRotate;
+	
+	public static Compressor m_compressor;
+	public static DoubleSolenoid m_solenoid;
+	
 	public static class ChassisPort {
 		public static int angle1 = 10;
 		public static int angle2 = 11;
@@ -37,6 +48,13 @@ public class RobotMap {
 		public static int speed2 = 1;
 		public static int speed3 = 2;
 		public static int speed4 = 3;
+	}
+	
+	public static class LiftPort {
+		public static int lift = 4;
+		public static int intakeL = 5;
+		public static int intakeR = 6;
+		public static int rotate = 7;
 	}
 	
 	public static class PIDConstants {
@@ -55,6 +73,15 @@ public class RobotMap {
 		speed3 = new VictorSP(ChassisPort.speed3);
 		speed4 = new VictorSP(ChassisPort.speed4);
 		System.out.println("Chassis MC init succesfully!");
+		
+		liftY = new VictorSP(LiftPort.lift);
+		intakeLeft = new VictorSP(LiftPort.intakeL);
+		intakeRight = new VictorSP(LiftPort.intakeR);
+		intakeRotate = new VictorSP(LiftPort.rotate);
+		System.out.println("Lift & intake MC init successfully!");
+		
+		m_compressor = new Compressor();
+		m_solenoid = new DoubleSolenoid(0, 1);
 	}
 	// For example to map the left and right motors, you could define the
 	// following variables to use with your drivetrain subsystem.

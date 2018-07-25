@@ -7,26 +7,31 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class JoystickDrive extends Command {
+public class shootCommand extends Command {
+	
+	boolean m_check;
 
-    public JoystickDrive() {
+    public shootCommand(boolean set) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.m_chassis);
+    	m_check = set;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-//    	Robot.m_chassis.resetAngleEncoder();
-    	Robot.m_chassis.resetGyro();
+    	Robot.m_intake.setWheelSpeed(0, 0);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-//    	Robot.m_chassis.setRawAngle(4396);
-    	Robot.m_chassis.joystickDrive(Robot.m_oi.driver.getRawAxis(1), Robot.m_oi.driver.getRawAxis(0), Robot.m_oi.driver.getRawAxis(4));
-//    	Robot.m_chassis.setAngle(180);
-    	Robot.m_chassis.log();
+    	if (m_check) {
+    	Robot.m_intake.setSolenoid(false);
+    	Robot.m_intake.setWheelSpeed(-0.8, -0.8);
+    	}
+    	else if (!m_check){
+    		Robot.m_intake.setSolenoid(true);
+    		Robot.m_intake.setWheelSpeed(0.8, 0.8);
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -36,10 +41,12 @@ public class JoystickDrive extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.m_intake.setWheelSpeed(0, 0);
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	end();
     }
 }

@@ -19,8 +19,10 @@ public class SwervePod extends Subsystem {
 	
 	private WPI_TalonSRX _angle;
 	private VictorSP _speed;
-	private boolean isFailed;
+	private boolean isFailed = false;
 	private PIDController anglePID;
+	
+	private double mLastTargetAngle;
 	
 	public SwervePod(WPI_TalonSRX angle, VictorSP speed, boolean inverted, double kP, double kI, double kD) {
 		_angle = angle;
@@ -38,9 +40,7 @@ public class SwervePod extends Subsystem {
 		
 		_speed.setInverted(inverted);
 		
-		
-		
-		
+		mLastTargetAngle = 0;
 	}
 	
 	public SwervePod(WPI_TalonSRX angle, VictorSP speed, boolean failed, boolean inverted) {
@@ -64,11 +64,15 @@ public class SwervePod extends Subsystem {
 		
 		
 		_speed.setInverted(inverted);
+		_angle.setInverted(true);
+		
+		mLastTargetAngle = 0;
 	}
 	
 
 	
 	public void setAngle(double angle) {
+		
 		if(isFailed) {
 			anglePID.setSetpoint(angle);
 		}
@@ -76,6 +80,11 @@ public class SwervePod extends Subsystem {
 		double rawAngle = angle*4096/108;
 		_angle.set(ControlMode.Position, rawAngle);
 		}
+	}
+	
+	public double setTestAngle(double targetAngle) {
+		double currentAngle = getAngle();
+		return 0;
 	}
 	
 	public void setRawAngle(double angle) {

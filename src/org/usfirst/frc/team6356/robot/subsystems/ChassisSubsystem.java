@@ -24,7 +24,7 @@ public class ChassisSubsystem extends Subsystem {
     // here. Call these from Commands.
 	
 	public ChassisSubsystem() {
-		pod1 = new SwervePod(RobotMap.angle1, RobotMap.speed1, false, 0.192, 0.00001, 0.0);
+		pod1 = new SwervePod(RobotMap.angle1, RobotMap.speed1, false, 0.28, 0.0, 0.1);
 		pod2 = new SwervePod(RobotMap.angle2, RobotMap.speed2, true, false);
 		pod3 = new SwervePod(RobotMap.angle3, RobotMap.speed3, true, false);
 		pod4 = new SwervePod(RobotMap.angle4, RobotMap.speed4, false, 0.42, 0.0, 0.0);
@@ -51,7 +51,7 @@ public class ChassisSubsystem extends Subsystem {
 	}
 	
 	
-	public void joystickDrive() {
+	public void joystickDrive(double _fwd, double _str, double _rcw) {
 		double fwd;
 		double str;
 		double rcw;
@@ -70,9 +70,12 @@ public class ChassisSubsystem extends Subsystem {
 		double fra, fla, rla, rra;
 		double max;
 		
-		fwd=-Robot.m_oi.driver.getRawAxis(1);
-		str=Robot.m_oi.driver.getRawAxis(0);
-		rcw=Robot.m_oi.driver.getRawAxis(4);
+		fwd = -_fwd;
+		str = _str;
+		rcw = _rcw;
+//		fwd=-Robot.m_oi.driver.getRawAxis(1);
+//		str=Robot.m_oi.driver.getRawAxis(0);
+//		rcw=Robot.m_oi.driver.getRawAxis(4);
 		
 //		temp=(fwd*Math.cos(getGyroRadian()))+str*Math.sin(getGyroRadian());
 //		str2 = (-fwd*Math.sin(getGyroRadian())) + str*Math.cos(getGyroRadian());
@@ -102,13 +105,19 @@ public class ChassisSubsystem extends Subsystem {
     	rra = Math.atan2(a,c) * 180/Math.PI;
     	
     	pod1.setAngle(fla);
-    	pod2.setAngle(-rla);
-    	pod3.setAngle(-fra);
+    	pod2.setAngle(rla);
+    	pod3.setAngle(fra);
     	pod4.setAngle(rra);
+//    	
+//    	SmartDashboard.putNumber("FLAngle",pod1.setTestAngle(fla)); 	
+//    	SmartDashboard.putNumber("RLAngle",pod2.setTestAngle(-rla));
+//    	SmartDashboard.putNumber("FRAngle",pod3.setTestAngle(-fra));
+//    	SmartDashboard.putNumber("RRAngle",pod4.setTestAngle(rra));
+    	
     	
     	SmartDashboard.putNumber("expFrontLeft", fla);
     	SmartDashboard.putNumber("expRearLeft", rla);
-    	SmartDashboard.putNumber("expFrontRight", fra);
+    	SmartDashboard.putNumber("expFro ntRight", fra);
     	SmartDashboard.putNumber("expRearRight", rra);
     	
     	max = frs;
@@ -144,7 +153,7 @@ public class ChassisSubsystem extends Subsystem {
     	else {
     		pod1.setSpeed(0);
     		pod2.setSpeed(0);
-    		pod3.setSpeed(0);
+      		pod3.setSpeed(0);
     		pod4.setSpeed(0);
     	}
 	}

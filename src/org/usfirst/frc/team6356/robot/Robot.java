@@ -7,8 +7,12 @@
 
 package org.usfirst.frc.team6356.robot;
 
+import org.usfirst.frc.team6356.robot.commands.MainAuto;
 import org.usfirst.frc.team6356.robot.subsystems.ChassisSubsystem;
+import org.usfirst.frc.team6356.robot.subsystems.IntakeSubsystem;
+import org.usfirst.frc.team6356.robot.subsystems.LiftSubsystem;
 
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -26,9 +30,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends TimedRobot {
 	public static OI m_oi;
 	public static ChassisSubsystem m_chassis;
+	public static LiftSubsystem m_lift;
+	public static IntakeSubsystem m_intake;
 
 	Command m_autonomousCommand;
-	SendableChooser<Command> m_chooser = new SendableChooser<>();
+//	SendableChooser<Command> m_chooser = new SendableChooser<>();
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -39,8 +45,12 @@ public class Robot extends TimedRobot {
 		RobotMap.init();
 		m_oi = new OI();
 		m_chassis = new ChassisSubsystem();
+		m_lift = new LiftSubsystem();
+		m_intake = new IntakeSubsystem();
+		CameraServer.getInstance().startAutomaticCapture().setResolution(640, 480);
+		
 		// chooser.addObject("My Auto", new MyAutoCommand());
-		SmartDashboard.putData("Auto mode", m_chooser);
+//		SmartDashboard.putData("Auto mode", m_chooser);
 	}
 
 	/**
@@ -71,7 +81,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		m_autonomousCommand = m_chooser.getSelected();
+		m_autonomousCommand = new MainAuto(3);
 
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",

@@ -7,26 +7,22 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class JoystickDrive extends Command {
+public class JoystickLift extends Command {
 
-    public JoystickDrive() {
+    public JoystickLift() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-    	requires(Robot.m_chassis);
+    	requires(Robot.m_lift);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-//    	Robot.m_chassis.resetAngleEncoder();
-    	Robot.m_chassis.resetGyro();
+    	Robot.m_lift.setLiftSpeed(0);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-//    	Robot.m_chassis.setRawAngle(4396);
-    	Robot.m_chassis.joystickDrive(Robot.m_oi.driver.getRawAxis(1), Robot.m_oi.driver.getRawAxis(0), Robot.m_oi.driver.getRawAxis(4));
-//    	Robot.m_chassis.setAngle(180);
-    	Robot.m_chassis.log();
+    	Robot.m_lift.setLiftSpeed(Robot.m_oi.operator.getRawAxis(1));
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -36,6 +32,7 @@ public class JoystickDrive extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.m_lift.setLiftSpeed(0);
     }
 
     // Called when another command which requires one or more of the same
